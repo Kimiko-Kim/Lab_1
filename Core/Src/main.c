@@ -103,7 +103,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  //uint16_t pin[8] = {GPIO_PIN_8, GPIO_PIN_9, GPIO_PIN_10, GPIO_PIN_11, GPIO_PIN_12, GPIO_PIN_13, GPIO_PIN_14, GPIO_PIN_15};
+  uint16_t pin[8] = {GPIO_PIN_8, GPIO_PIN_9, GPIO_PIN_10, GPIO_PIN_11, GPIO_PIN_12, GPIO_PIN_13, GPIO_PIN_14, GPIO_PIN_15};
   uint8_t led_state = 0;
   uint8_t button_prev = 0;
 
@@ -113,23 +113,19 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  uint8_t button_now = HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0);
-	  if(button_now && !button_prev)
-	  {
-		  led_state = !led_state;
-		  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, led_state ? GPIO_PIN_SET : GPIO_PIN_RESET);
-	  }
+	if (button_now && !button_prev) {
+ 
+        for (int i = 0; i < 8; i++)
+        {
+            HAL_GPIO_WritePin(GPIOE, led_pins[i], GPIO_PIN_RESET);
+        }
 
-	  button_prev = button_now;
-	  HAL_Delay(20);
-	  /*for(int i = 0; i < 8; i++)
-	  {
-		  HAL_GPIO_WritePin(GPIOE, pin[i], GPIO_PIN_SET);
-		  HAL_Delay(200);
-		  HAL_GPIO_WritePin(GPIOE, pin[i], GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(GPIOE, led_pins[led_index], GPIO_PIN_SET);
 
-	  }*/
-
-
+        led_index = (led_index ++) % 8;
+    }
+    button_prev = button_now;
+    HAL_Delay(30);
   }
   /* USER CODE END 3 */
 }
