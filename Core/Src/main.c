@@ -122,7 +122,7 @@ int main(void)
 
         HAL_GPIO_WritePin(GPIOE, led_pins[led_index], GPIO_PIN_SET);
 
-        led_index = (led_index ++) % 8;
+        led_index = (led_index + 1) % 8;
     }
     button_prev = button_now;
     HAL_Delay(30);
